@@ -1,1 +1,2 @@
-print("Execunting dundie package...")
+def main():
+    print("Executing Dundie from entryu point")
