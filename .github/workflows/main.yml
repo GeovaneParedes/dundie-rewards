@@ -1,4 +1,8 @@
-name: CI
+name: CI/CD Pipeline
+
+permissions:
+  contents: read # Default permissions
+  checks: write  # <-- ADD THIS LINE
 
 on:
   push:
@@ -12,6 +16,9 @@ on:
 
 jobs:
   tests:
+    permissions:
+      contents: read
+      checks: write
     strategy:
       fail-fast: false
       matrix:
@@ -28,8 +35,8 @@ jobs:
             pip install pytest
             pip install '.[test]'
       - name: Run tests
-        run: make testci
-      - name: publish junit results
+        run: pytest -v --junitxml=test-result.xml
+      - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
