@@ -8,7 +8,7 @@ import pytest
 def test_load_positive_call_load_command():
     """test command load"""
     out = (
-        check_output(["dundie", "load", "tests/assets/people.csv"])
+        check_output(["dundie", "load", "assets/people.csv"])
         .decode("utf-8")
         .split("\n")
     )
