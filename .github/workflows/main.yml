@@ -1,8 +1,8 @@
 name: CI/CD Pipeline
 
 permissions:
-  contents: read # Default permissions
-  checks: write  # <-- ADD THIS LINE
+  contents: read
+  checks: write
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ['3.10']
+        python-version: ["3.10"]
         os: [ubuntu-latest]
     runs-on: ${{matrix.os}}
     steps:
@@ -28,9 +28,9 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
       - name: Instalar dependências
-        run: pip install -r requirements.test.txt
+        run: pip install '.[test]'
       - name: Look for style errors
-        run: flake8
+        run: pflake8
       - name: Check for importing style
         run: isort --profile=black --check --diff dundie tests integration
       - name: Look for auto format errors

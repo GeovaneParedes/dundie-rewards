@@ -1,6 +1,6 @@
 import argparse
 
-from dundie.core import load
+from dundie.core import load  # noqa
 
 
 def main():
@@ -19,4 +19,5 @@ def main():
         "filepath", type=str, help="File path to load", default=None
     )
     args = parser.parse_args()
+
     print(*globals()[args.subcommand](args.filepath))
