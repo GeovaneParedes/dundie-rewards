@@ -30,7 +30,7 @@ jobs:
       - name: Instalar dependências
         run: pip install -r requirements.test.txt
       - name: Look for style errors
-        run: pflake8
+        run: flake8
       - name: Look for auto format errors
         run: black --check --diff dundie tests integration
 
@@ -49,6 +49,7 @@ jobs:
           python-version: ${{matrix.python-version}}
       - name: Install Project
         run: pip install '.[test]'
+        run: pip install -r requirements.test.txt
       - name: Run tests
         run: pytest -v --junitxml=test-result.xml
       - name: Publish Test Results
