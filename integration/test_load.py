@@ -1,4 +1,4 @@
-from subprocess import CalledProcessError, check_output
+from subprocess import CalledProcessError, check_output  # noqa
 
 import pytest
 
