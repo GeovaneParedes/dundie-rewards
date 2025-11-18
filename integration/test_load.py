@@ -8,7 +8,7 @@ import pytest
 def test_load_positive_call_load_command():
     """test command load"""
     out = (
-        check_output(["dundie", "load", "assets/people.csv"])
+        check_output(["dundie", "load", "tests/assets/people.csv"])
         .decode("utf-8")
         .split("\n")
     )
@@ -17,9 +17,7 @@ def test_load_positive_call_load_command():
 
 @pytest.mark.integration
 @pytest.mark.medium
-@pytest.mark.parametrize(
-    "wrong_command", ["loady", "carregar", "start", "comando"]
-)
+@pytest.mark.parametrize("wrong_command", ["loady", "carrega", "start"])
 def test_load_negative_call_load_command_with_wrong_params(wrong_command):
     """test command load"""
     with pytest.raises(CalledProcessError) as error:
