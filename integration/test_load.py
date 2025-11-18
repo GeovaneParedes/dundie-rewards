@@ -1,8 +1,6 @@
-from subprocess import CalledProcessError, check_output
+from subprocess import CalledProcessError, check_output  # noqa
 
 import pytest
-
-from subprocess import check_output, CalledProcessError  # noqa
 
 
 @pytest.mark.integration
