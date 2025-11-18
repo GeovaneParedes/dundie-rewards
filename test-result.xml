@@ -1,1 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="7" time="0.628" timestamp="2025-11-18T10:56:41.485735-03:00" hostname="devgege"><testcase classname="tests.test_load" name="test_load_positive_has_2_people" time="0.001" /><testcase classname="tests.test_load" name="test_load_positive_first_name_starts_with" time="0.001" /><testcase classname="integration.test_load" name="test_load_positive_call_load_command" time="0.072" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[loady]" time="0.144" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[carregar]" time="0.126" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[start]" time="0.128" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[comando]" time="0.123" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="7" time="0.558" timestamp="2025-11-18T10:59:24.013861-03:00" hostname="devgege"><testcase classname="tests.test_load" name="test_load_positive_has_2_people" time="0.001" /><testcase classname="tests.test_load" name="test_load_positive_first_name_starts_with" time="0.001" /><testcase classname="integration.test_load" name="test_load_positive_call_load_command" time="0.056"><failure message="subprocess.CalledProcessError: Command '['dundie', 'load', 'tests/assets/people.csv']' returned non-zero exit status 1.">@pytest.mark.integration
+    @pytest.mark.medium
+    def test_load_positive_call_load_command():
+        """test command load"""
+        out = (
+&gt;           check_output(["dundie", "load", "tests/assets/people.csv"])
+            .decode("utf-8")
+            .split("\n")
+        )
+
+integration/test_load.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.10/subprocess.py:421: in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = False, timeout = None, check = True
+popenargs = (['dundie', 'load', 'tests/assets/people.csv'],)
+kwargs = {'stdout': -1}
+process = &lt;Popen: returncode: 1 args: ['dundie', 'load', 'tests/assets/people.csv']&gt;
+stdout = b'', stderr = None, retcode = 1
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output &amp; stderr attributes if those streams
+        were captured.
+    
+        If timeout is given, and the process takes too long, a TimeoutExpired
+        exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+&gt;               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['dundie', 'load', 'tests/assets/people.csv']' returned non-zero exit status 1.
+
+/usr/lib/python3.10/subprocess.py:526: CalledProcessError</failure></testcase><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[loady]" time="0.107" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[carregar]" time="0.095" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[start]" time="0.105" /><testcase classname="integration.test_load" name="test_load_negative_call_load_command_with_wrong_params[comando]" time="0.088" /></testsuite></testsuites>

@@ -21,7 +21,7 @@ exclude = '''
     \.eggs
   | \.git
   | \.venv 
-  | \_build
+  | _build
   | build
   | dist
   | migrations
