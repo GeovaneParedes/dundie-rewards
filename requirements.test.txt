@@ -1,2 +1,4 @@
 # test dependencies
 pytest
+flake8
+pyproject-flake8

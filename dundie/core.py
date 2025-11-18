@@ -3,6 +3,7 @@ from dundie.utils.log import get_logger
 
 log = get_logger()
 
+
 def load(filepath):
     """Loads data from filepath to the database"""
     try:
