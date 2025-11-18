@@ -1,6 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
+
 def read(*paths):
     """Read the contents of a text file safely
     >>> read("dundie", "VERSIOM)
@@ -21,6 +22,7 @@ def read_requirements(path):
         for line in read(path).split("\n")
         if not line.startswith(("#", "git", '"', "-"))
     ]
+
 
 setup(
     name="dundie",

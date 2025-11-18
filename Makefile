@@ -1,16 +1,22 @@
-.PHONY: install virtualenv ipython clean test
+.PHONY: install virtualenv ipython clean test pflake8
 
 install:
 	@echo "Installing for dev environment"
-	@.venv/bin/python -m pip install -e '.[dev]'
+	@.venv/bin/python -m pip install -e ".[dev]"
 
 
 virtualenv:
-	@.venv/bin/python -m pip -m venv .venv
-
+	@echo "Creating virtual environment..."
+	@python3 -m venv .venv
 
 ipython:
 	@.venv/bin/ipython
+
+lint:
+	@.venv/bin/flake8 dundie tests integration
+
+fmt:
+	@.venv/bin/black dundie tests integration
 
 test:
 	@.venv/bin/pytest -s
