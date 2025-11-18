@@ -52,8 +52,8 @@ jobs:
       - name: Run tests
         run: pytest -v --junitxml=test-result.xml
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: test-result.xml
+          files: "test-results/**/*.xml"
           check_name: Test Result (Python ${{matrix.python-version}})
