@@ -31,6 +31,8 @@ jobs:
         run: pip install -r requirements.test.txt
       - name: Look for style errors
         run: flake8
+      - name: Check for importing style
+        run: isort --profile=black --check --diff dundie tests integration
       - name: Look for auto format errors
         run: black --check --diff dundie tests integration
 
@@ -49,7 +51,6 @@ jobs:
           python-version: ${{matrix.python-version}}
       - name: Install Project
         run: pip install '.[test]'
-        run: pip install -r requirements.test.txt
       - name: Run tests
         run: pytest -v --junitxml=test-result.xml
       - name: Publish Test Results

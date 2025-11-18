@@ -1,5 +1,6 @@
+from subprocess import CalledProcessError, check_output
+
 import pytest
-from subprocess import check_output, CalledProcessError
 
 
 @pytest.mark.integration

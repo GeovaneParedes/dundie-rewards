@@ -27,3 +27,7 @@ exclude = '''
   | migrations
 )/
 ''' 
+
+[tool.isort]
+profile = "black"
+src_paths = ["dundie", "tests", "integration"]
