@@ -17,7 +17,7 @@ on:
 jobs:
   lint:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         python-version: ['3.10']
         os: [ubuntu-latest]
@@ -30,7 +30,7 @@ jobs:
       - name: Instalar dependências (Linting)
         run: pip install -r requirements.test.txt
       - name: Look for style errors (flake8)
-        run: flake8
+        run: pflake8
       - name: Check for importing style (isort)
         run: isort --profile=black --check --diff dundie tests integration
       - name: Look for auto format errors (black check)
