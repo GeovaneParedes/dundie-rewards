@@ -5,7 +5,7 @@ pudb
 pytest-watch
 
 # Code Quality
-pflake8
+flake8
 pyproject-flake8
 black
 
