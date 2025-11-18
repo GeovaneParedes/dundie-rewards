@@ -1,4 +1,5 @@
 # test dependencies
 pytest
-flake8
+pflake8
 pyproject-flake8
+black
