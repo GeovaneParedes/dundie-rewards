@@ -1,4 +1,5 @@
 import argparse
+from dundie.core import load
 
 
 def main():
