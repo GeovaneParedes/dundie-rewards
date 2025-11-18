@@ -52,7 +52,7 @@ jobs:
       - name: Run tests
         run: pytest -v --junitxml=test-result.xml
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: test-result.xml
