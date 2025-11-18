@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Pipeline CI/CD
 
 permissions:
   contents: read
@@ -6,35 +6,48 @@ permissions:
 
 on:
   push:
-    branches:
-      - "main"
+    branches: ["main"]
   pull_request:
-    branches:
-      - "main"
+    branches: ["main"]
   workflow_dispatch:
-
 
 jobs:
   lint:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.9", "3.10"]
         os: [ubuntu-latest]
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{matrix.python-version}}
-      - name: Instalar dependências (Linting)
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('/pyproject.toml', '/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Instalar dependências (lint)
         run: pip install '.[test]'
-      - name: Look for style errors
+
+      - name: Procurar erros de estilo (pflake8)
         run: pflake8
-      - name: Check for importing style (isort)
-        run: isort --profile=black --check --diff dundie tests integration
-      - name: Look for auto format errors (black check)
-        run: black --check --diff dundie tests integration
+
+      - name: Checar estilo de importação (isort)
+        run: isort --profile=black --check --diff .
+
+      - name: Verificar formatação automática (black --check)
+        run: black --check --diff .
+
   tests:
     needs: lint
     strategy:
@@ -42,19 +55,40 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10"]
         os: [ubuntu-latest]
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{matrix.python-version}}
-      - name: Instalar Projeto e Dependências
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('/pyproject.toml', '/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Instalar projeto e dependências
         run: pip install '.[test]'
-      - name: Run tests
-        run: pytest -v --junitxml=test-result.xml
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+
+      - name: Executar testes
+        run: pytest -v --junitxml=test-result-${{ matrix.python-version }}.xml
+
+      - name: Publicar resultados dos testes (ação)
         if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v1
         with:
-          files: test-result.xml
-          check_name: Test Result (Python ${{matrix.python-version}})
+          files: test-result-${{ matrix.python-version }}.xml
+          check_name: Resultado dos Testes (Python ${{ matrix.python-version }})
+
+      - name: Fazer upload do relatório de testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-${{ matrix.python-version }}
+          path: test-result-${{ matrix.python-version }}.xml
