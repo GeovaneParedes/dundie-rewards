@@ -33,9 +33,6 @@ jobs:
         run: pflake8
 
   tests:
-    permissions:
-      contents: read
-      checks: write
     needs: lint
     strategy:
       fail-fast: false
@@ -49,9 +46,7 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
       - name: Install Project
-        run: |
-            pip install pytest
-            pip install '.[test]'
+        run: pip install '.[test]'
       - name: Run tests
         run: pytest -v --junitxml=test-result.xml
       - name: Publish Test Results
