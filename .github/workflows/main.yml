@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 permissions:
   contents: read
-  checks: write
+  checks: write # Permissão necessária para publicar resultados
 
 on:
   push:
@@ -15,29 +15,38 @@ on:
 
 
 jobs:
+  # INÍCIO DO JOB: LINT
   lint:
+    # 1. Definição da estratégia (Matriz de Python)
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.10"]
+        python-version: ['3.10']
         os: [ubuntu-latest]
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.os}} # Define o sistema operacional
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: ${{matrix.python-version}}
-      - name: Instalar dependências
-        run: pip install '.[test]'
-      - name: Look for style errors
-        run: pflake8
-      - name: Check for importing style
+          
+      - name: Instalar dependências (Linting)
+        # Instala as ferramentas de qualidade: flake8, isort, black, etc.
+        run: pip install -r requirements.test.txt
+        
+      - name: Look for style errors (flake8)
+        run: flake8 
+        
+      - name: Check for importing style (isort)
         run: isort --profile=black --check --diff dundie tests integration
-      - name: Look for auto format errors
+        
+      - name: Look for auto format errors (black check)
         run: black --check --diff dundie tests integration
 
+  # INÍCIO DO JOB: TESTS
   tests:
-    needs: lint
+    needs: lint # Depende do lint passar primeiro
+    # 2. Definição da estratégia e OS (para rodar em múltiplas versões)
     strategy:
       fail-fast: false
       matrix:
@@ -49,13 +58,19 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{matrix.python-version}}
-      - name: Install Project
-        run: pip install '.[test]'
+          
+      - name: Instalar Projeto e Dependências
+        # Instala as dependências de runtime e teste (inclui pytest)
+        run: pip install -r requirements.test.txt 
+        
       - name: Run tests
+        # Gera o arquivo com o nome 'test-result.xml'
         run: pytest -v --junitxml=test-result.xml
+        
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: test-result.xml
+          # CORREÇÃO CRÍTICA: O nome do arquivo DEVE ser 'test-result.xml'
+          files: test-result.xml 
           check_name: Test Result (Python ${{matrix.python-version}})
