@@ -1,4 +1,4 @@
-.PHONY: install virtualenv ipython clean test pflake8
+.PHONY: install virtualenv ipython clean test flake8
 
 install:
 	@echo "Installing for dev environment"
