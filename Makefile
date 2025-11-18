@@ -16,6 +16,7 @@ lint:
 	@.venv/bin/flake8 dundie tests integration
 
 fmt:
+	@.venv/bin/isort dundie tests integration
 	@.venv/bin/black dundie tests integration
 
 test:
