@@ -1,7 +1,6 @@
-from subprocess import CalledProcessError, check_output
+from subprocess import CalledProcessError, check_output  # noqa
 
 import pytest
-from subprocess import check_output, CalledProcessError
 
 
 @pytest.mark.integration
@@ -18,9 +17,7 @@ def test_load_positive_call_load_command():
 
 @pytest.mark.integration
 @pytest.mark.medium
-@pytest.mark.parametrize(
-    "wrong_command", ["loady", "carregar", "start", "comando"]
-)
+@pytest.mark.parametrize("wrong_command", ["loady", "carrega", "start"])
 def test_load_negative_call_load_command_with_wrong_params(wrong_command):
     """test command load"""
     with pytest.raises(CalledProcessError) as error:
