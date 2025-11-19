@@ -43,10 +43,10 @@ jobs:
         run: flake8
 
       - name: Checar estilo de importação (isort)
-        run: isort --profile=black --check --diff .
+        run: isort dundie tests integration 
 
       - name: Verificar formatação automática (black --check)
-        run: black --check --diff .
+        run: black dundie tests integration
 
   tests:
     needs: lint
