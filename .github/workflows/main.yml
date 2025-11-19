@@ -85,7 +85,6 @@ jobs:
         with:
           files: test-result-${{ matrix.python-version }}.xml
           check_name: Resultado dos Testes (Python ${{ matrix.python-version }})
-
       - name: Fazer upload do relatório de testes
         if: always()
         uses: actions/upload-artifact@v4
