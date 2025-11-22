@@ -2,7 +2,7 @@
 
 install:
 	@echo "Installing for dev environment"
-	@.venv/bin/python -m pip install ".[test]"
+	@.venv/bin/python -m pip install -e '.[test]'
 
 
 virtualenv:
@@ -20,10 +20,10 @@ fmt:
 	@.venv/bin/black dundie tests integration
 
 test:
-	@.venv/bin/pytest -s
+	@.venv/bin/pytest -s --forked
 
 watch:
-	@ls **/*.py | entr pytest
+	@ls **/*.py | entr pytest --forked
 
 clean:			  ## Clean unused files.
 	@find ./ -name '*.pyc' -exec rm -f {} \;

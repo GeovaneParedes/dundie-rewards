@@ -1,0 +1,75 @@
+{
+    "people": {
+        "joe@doe.com": {
+            "role": "Salesman",
+            "dept": "Sales",
+            "active": true,
+            "name": "Joe Doe"
+        },
+        "jim@dundlermifflin.com": {
+            "name": "Jim Halpert",
+            "dept": "Sales",
+            "role": "Saleman"
+        },
+        "schrute@dundlermifflin.com": {
+            "name": "Dwight Schrute",
+            "dept": "Sales",
+            "role": "Manager"
+        },
+        "glewis@dundlermifflin.com": {
+            "name": "Gabe Lewis",
+            "dept": "Directory",
+            "role": "Manager"
+        }
+    },
+    "balance": {
+        "joe@doe.com": 500,
+        "jim@dundlermifflin.com": 500,
+        "schrute@dundlermifflin.com": 100,
+        "glewis@dundlermifflin.com": 100
+    },
+    "moviment": {
+        "joe@doe.com": [
+            {
+                "date": "",
+                "value": 0
+            }
+        ],
+        "jim@dundlermifflin.com": [
+            {
+                "date": "2025-11-21T22:12:25.166587",
+                "actor": "system",
+                "value": 500
+            }
+        ],
+        "schrute@dundlermifflin.com": [
+            {
+                "date": "2025-11-21T22:12:25.169996",
+                "actor": "system",
+                "value": 100
+            }
+        ],
+        "glewis@dundlermifflin.com": [
+            {
+                "date": "2025-11-21T22:12:25.171573",
+                "actor": "system",
+                "value": 100
+            }
+        ]
+    },
+    "users": {
+        "joe@doe.com": {
+            "password": "pbkdf2:sha256:150000$abc$def",
+            "is_admin": false
+        },
+        "jim@dundlermifflin.com": {
+            "password": "beKWZdpn"
+        },
+        "schrute@dundlermifflin.com": {
+            "password": "MpxjyQbB"
+        },
+        "glewis@dundlermifflin.com": {
+            "password": "nrxgHq7I"
+        }
+    }
+}
