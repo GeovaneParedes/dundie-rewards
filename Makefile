@@ -2,7 +2,7 @@
 
 install:
 	@echo "Installing for dev environment"
-	@.venv/bin/python -m pip install -e '.[test]'
+	@.venv/bin/python -m pip install -r requirements.test.txt
 
 
 virtualenv:
@@ -13,11 +13,11 @@ ipython:
 	@.venv/bin/ipython
 
 lint:
-	@.venv/bin/pflake8 dundie tests integration
+	@.venv/bin/pflake8
 
 fmt:
-	@.venv/bin/isort --check --diff dundie tests integration
-	@.venv/bin/black --check --diff dundie tests integration
+	@.venv/bin/isort dundie tests integration
+	@.venv/bin/black dundie tests integration
 
 test:
 	@.venv/bin/pytest -s --forked
