@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Instalar dependências (lint)
-        run: pip install -e '.[test]'
+        run: pip install -e ".[test]"
 
       - name: Procurar erros de estilo
         run: flake8
@@ -75,7 +75,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Instalar projeto e dependências
-        run: pip install -e '.[test]'
+        run: pip install -e ".[test]"
 
       - name: Executar testes
         run: pytest -v --junitxml=test-result-${{ matrix.python-version }}.xml
