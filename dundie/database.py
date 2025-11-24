@@ -27,6 +27,7 @@ def commit(db):
 
 def add_person(db, pk, data):
     """Save person data to database
+
     - Email is unique (resolved by dictionary has table)
     - Set initial balance (manager = 100, others = 500)
     - Generate a password if user is new and send_email

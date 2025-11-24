@@ -13,18 +13,18 @@
         },
         "schrute@dundlermifflin.com": {
             "name": "Dwight Schrute",
-            "dept": "Sales",
+            "dept": "Manager",
             "role": "Manager"
         },
         "glewis@dundlermifflin.com": {
             "name": "Gabe Lewis",
-            "dept": "Directory",
-            "role": "Manager"
+            "dept": "C-Level",
+            "role": "CEO"
         }
     },
     "balance": {
-        "joe@doe.com": 500,
-        "jim@dundlermifflin.com": 500,
+        "joe@doe.com": 74,
+        "jim@dundlermifflin.com": 574,
         "schrute@dundlermifflin.com": 100,
         "glewis@dundlermifflin.com": 100
     },
@@ -33,6 +33,21 @@
             {
                 "date": "",
                 "value": 0
+            },
+            {
+                "date": "2025-11-23T21:09:45.423508",
+                "actor": "devgege",
+                "value": -50
+            },
+            {
+                "date": "2025-11-23T21:12:04.514002",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-23T21:13:48.203060",
+                "actor": "devgege",
+                "value": 62
             }
         ],
         "jim@dundlermifflin.com": [
@@ -40,6 +55,21 @@
                 "date": "2025-11-21T22:12:25.166587",
                 "actor": "system",
                 "value": 500
+            },
+            {
+                "date": "2025-11-23T21:09:45.423522",
+                "actor": "devgege",
+                "value": -50
+            },
+            {
+                "date": "2025-11-23T21:12:04.514016",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-23T21:13:48.203072",
+                "actor": "devgege",
+                "value": 62
             }
         ],
         "schrute@dundlermifflin.com": [

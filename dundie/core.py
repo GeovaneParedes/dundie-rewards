@@ -1,8 +1,9 @@
 """Core module of dundie"""
 
+import os
 from csv import reader
 
-from dundie.database import add_person, commit, connect
+from dundie.database import add_movement, add_person, commit, connect
 from dundie.utils.log import get_logger
 
 log = get_logger()
@@ -35,3 +36,43 @@ def load(filepath):
 
     commit(db)
     return people
+
+
+def read(**query):
+    """Read people from db filters using query.
+
+    read(email="joe@doe.com")
+    """
+    db = connect()
+    return_data = []
+    for pk, data in db["people"].items():
+        if (dept := query.get("dept")) and dept != data["dept"]:
+            continue
+        if (email := query.get("email")) and email != pk:
+            continue
+
+        return_data.append(
+            {
+                "email": pk,
+                "balance": db["balance"][pk],
+                "last_movement": db["moviment"][pk][-1]["date"],
+                **data,
+            }
+        )
+    return return_data
+
+
+def add(value, **query):
+    """Add a person to the database.
+
+    read(email="joe@doe.com")
+    """
+    people = read(**query)
+    if not people:
+        raise RuntimeError("Not Found")
+
+    db = connect()
+    user = os.getenv("USER")
+    for person in people:
+        add_movement(db, person["email"], value, user)
+    commit(db)
