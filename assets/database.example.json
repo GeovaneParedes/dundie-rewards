@@ -5,16 +5,115 @@
             "dept": "Sales",
             "active": true,
             "name": "Joe Doe"
+        },
+        "jim@dundlermifflin.com": {
+            "name": "Jim Halpert",
+            "dept": "Sales",
+            "role": "Saleman"
+        },
+        "schrute@dundlermifflin.com": {
+            "name": "Dwight Schrute",
+            "dept": "Sales",
+            "role": "Manager"
+        },
+        "glewis@dundlermifflin.com": {
+            "name": "Gabe Lewis",
+            "dept": "C-Level",
+            "role": "CEO"
         }
     },
     "balance": {
-        "joe@doe.com": 500
+        "joe@doe.com": 186,
+        "jim@dundlermifflin.com": 686,
+        "schrute@dundlermifflin.com": 100,
+        "glewis@dundlermifflin.com": 100
     },
     "moviment": {
         "joe@doe.com": [
             {
                 "date": "",
                 "value": 0
+            },
+            {
+                "date": "2025-11-23T21:09:45.423508",
+                "actor": "devgege",
+                "value": -50
+            },
+            {
+                "date": "2025-11-23T21:12:04.514002",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-23T21:13:48.203060",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-24T10:40:21.913132",
+                "actor": "devgege",
+                "value": -50
+            },
+            {
+                "date": "2025-11-24T10:40:30.105018",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-24T10:41:10.812453",
+                "actor": "devgege",
+                "value": 100
+            }
+        ],
+        "jim@dundlermifflin.com": [
+            {
+                "date": "2025-11-21T22:12:25.166587",
+                "actor": "system",
+                "value": 500
+            },
+            {
+                "date": "2025-11-23T21:09:45.423522",
+                "actor": "devgege",
+                "value": -50
+            },
+            {
+                "date": "2025-11-23T21:12:04.514016",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-23T21:13:48.203072",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-24T10:40:21.913159",
+                "actor": "devgege",
+                "value": -50
+            },
+            {
+                "date": "2025-11-24T10:40:30.105030",
+                "actor": "devgege",
+                "value": 62
+            },
+            {
+                "date": "2025-11-24T10:41:10.812465",
+                "actor": "devgege",
+                "value": 100
+            }
+        ],
+        "schrute@dundlermifflin.com": [
+            {
+                "date": "2025-11-21T22:12:25.169996",
+                "actor": "system",
+                "value": 100
+            }
+        ],
+        "glewis@dundlermifflin.com": [
+            {
+                "date": "2025-11-21T22:12:25.171573",
+                "actor": "system",
+                "value": 100
             }
         ]
     },
@@ -22,6 +121,15 @@
         "joe@doe.com": {
             "password": "pbkdf2:sha256:150000$abc$def",
             "is_admin": false
+        },
+        "jim@dundlermifflin.com": {
+            "password": "beKWZdpn"
+        },
+        "schrute@dundlermifflin.com": {
+            "password": "MpxjyQbB"
+        },
+        "glewis@dundlermifflin.com": {
+            "password": "nrxgHq7I"
         }
     }
 }
