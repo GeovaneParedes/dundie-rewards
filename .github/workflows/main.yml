@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Instalar dependências (lint)
-        run: pip install -r requirements.test.txt
+        run: pip install -e ".[test]"
 
       - name: Procurar erros de estilo
         run: pflake8
@@ -75,10 +75,11 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Instalar projeto e dependências
-        run: pip install -r requirements.test.txt
+        run: pip install -e ".[test]"
 
       - name: Executar testes
-        run: pytest -v --junitxml=test-result-${{ matrix.python-version }}.xml
+        # ADICIONADO AQUI: --forked
+        run: pytest -v --forked --junitxml=test-result-${{ matrix.python-version }}.xml
 
       - name: Publicar resultados dos testes (ação)
         if: always()
