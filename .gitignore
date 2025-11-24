@@ -65,7 +65,8 @@ db.sqlite3-journal
 # ... outras coisas ...
 *.db
 *.sqlite3
-database.json
+* database.json
+* database.example.json
 
 # Flask stuff:
 instance/
