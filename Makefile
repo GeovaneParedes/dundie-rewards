@@ -1,8 +1,8 @@
-.PHONY: install virtualenv ipython clean tests flake8
+.PHONY: install virtualenv ipython clean test pflake8
 
 install:
 	@echo "Installing for dev environment"
-	@.venv/bin/python -m pip install ".[test]"
+	@.venv/bin/python -m pip install -r requirements.test.txt
 
 
 virtualenv:
@@ -13,17 +13,17 @@ ipython:
 	@.venv/bin/ipython
 
 lint:
-	@.venv/bin/flake8 dundie tests integration
+	@.venv/bin/pflake8
 
 fmt:
 	@.venv/bin/isort dundie tests integration
 	@.venv/bin/black dundie tests integration
 
 test:
-	@.venv/bin/pytest -s
+	@.venv/bin/pytest -s --forked
 
 watch:
-	@ls **/*.py | entr pytest
+	@ls **/*.py | entr pytest --forked
 
 clean:			  ## Clean unused files.
 	@find ./ -name '*.pyc' -exec rm -f {} \;

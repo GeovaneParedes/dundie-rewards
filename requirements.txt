@@ -1,6 +1,4 @@
 # test dependencies
-pytest
-flake8
-pyproject-flake8
-black
-isort
+click
+rich
+rich-click

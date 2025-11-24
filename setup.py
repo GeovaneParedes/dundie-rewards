@@ -35,7 +35,7 @@ setup(
     packages=find_packages(),
     entry_points={"console_scripts": ["dundie = dundie.__main__:main"]},
     install_requires=read_requirements("requirements.txt"),
-    extras_requires={
+    extras_require={
         "test": read_requirements("requirements.test.txt"),
         "dev": read_requirements("requirements.dev.txt")
     }
