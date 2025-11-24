@@ -41,13 +41,13 @@ jobs:
         run: pip install -e ".[test]"
 
       - name: Procurar erros de estilo
-        run: flake8
+        run: pflake8
 
       - name: Checar estilo de importação (isort)
-        run: isort dundie tests integration 
+        run: isort --check --diff dundie tests integration 
 
       - name: Verificar formatação automática (black --check)
-        run: black dundie tests integration
+        run: black --check --diff dundie tests integration
 
   tests:
     needs: lint
