@@ -1,7 +1,7 @@
 # test dependencies
 pytest
 pytest-forked
-flake8 >= 7.3.0
+flake8
 pyproject-flake8
 black
 isort
