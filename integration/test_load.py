@@ -11,7 +11,8 @@ cmd = CliRunner()
 @pytest.mark.medium
 def test_load_positive_call_load_command():
     """test command load"""
-    out = cmd.invoke(load, PEOPLE_FILE)
+    args = [PEOPLE_FILE, "--user", "admin@dundler.com", "--password", "pwd"]
+    out = cmd.invoke(load, args)
     assert "Dundie Mifflin Associates" in out.output
 
 
