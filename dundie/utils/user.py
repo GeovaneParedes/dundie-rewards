@@ -28,4 +28,6 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify plain password against hashed password."""
     if not hashed_password or not plain_password:
         return False
-    return hmac.compare_digest(get_password_hash(plain_password), hashed_password)
+    return hmac.compare_digest(
+        get_password_hash(plain_password), hashed_password
+    )

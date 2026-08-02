@@ -1,9 +1,13 @@
 import json
 from datetime import datetime
 
-from dundie.settings import DATABASE_PATH, EMAIL_FROM
+from dundie.settings import EMAIL_FROM
 from dundie.utils.email import check_valid_email, send_email
-from dundie.utils.user import generate_simple_password
+from dundie.utils.user import (
+    generate_simple_password,
+    get_password_hash,
+    verify_password,
+)
 
 EMPTY_DB = {"people": {}, "balance": {}, "moviment": {}, "users": {}}
 
@@ -47,9 +51,6 @@ def add_person(db, pk, data):
         send_email(EMAIL_FROM, pk, "Your dundie password", password)
         # TODO: Encrypt and send only link not password
     return person, created
-
-
-from dundie.utils.user import generate_simple_password, get_password_hash, verify_password
 
 
 def set_initial_password(db, pk):

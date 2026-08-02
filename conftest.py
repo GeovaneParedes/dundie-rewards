@@ -29,7 +29,5 @@ def setup_testing_database(request):
     """For each test, create a clean database file on tmpdir"""
     tmpdir = request.getfixturevalue("tmpdir")
     test_db = str(tmpdir.join("database.test.json"))
-    import dundie.database
-    import dundie.settings
-    with patch.object(dundie.database, "DATABASE_PATH", test_db), patch.object(dundie.settings, "DATABASE_PATH", test_db):
+    with patch("dundie.settings.DATABASE_PATH", test_db):
         yield

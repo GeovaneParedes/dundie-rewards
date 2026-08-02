@@ -26,11 +26,13 @@ def main():
 @main.command()
 @click.argument("filepath", type=click.Path(exists=True))
 @click.option("--user", prompt=True, help="Admin username/email")
-@click.option("--password", prompt=True, hide_input=True, help="Admin password")
+@click.option(
+    "--password", prompt=True, hide_input=True, help="Admin password"
+)
 def load(filepath, user, password):
     """Load the file to the database (Protected by Admin Auth)."""
     db = core.connect()
-    # Se houver usuários cadastrados, valida autenticação. Se for primeira carga, aceita credencial inicial.
+    # Se houver usuários cadastrados, valida autenticação.
     if db.get("users") and not core.authenticate_user(db, user, password):
         print("Error: Invalid admin credentials.")
         raise click.Abort()
@@ -79,7 +81,9 @@ def show(output, **query):
 @click.option("--email", required=False)
 @click.option("--dept", required=False)
 @click.option("--user", prompt=True, help="Admin username/email")
-@click.option("--password", prompt=True, hide_input=True, help="Admin password")
+@click.option(
+    "--password", prompt=True, hide_input=True, help="Admin password"
+)
 @click.pass_context
 def add(ctx, value, user, password, **query):
     """Add points to the user or dept (Protected by Admin Auth)."""
@@ -97,7 +101,9 @@ def add(ctx, value, user, password, **query):
 @click.option("--dept", required=False)
 @click.option("--email", required=False)
 @click.option("--user", prompt=True, help="Admin username/email")
-@click.option("--password", prompt=True, hide_input=True, help="Admin password")
+@click.option(
+    "--password", prompt=True, hide_input=True, help="Admin password"
+)
 @click.pass_context
 def remove(ctx, value, user, password, **query):
     """Remove points from user or dept (Protected by Admin Auth)."""
