@@ -114,3 +114,62 @@ def remove(ctx, value, user, password, **query):
 
     core.add(-value, **query)
     ctx.invoke(show, **query)
+
+
+@main.command()
+@click.option("--user", prompt=True, help="Employee email")
+@click.option("--password", prompt=True, hide_input=True, help="Password")
+def balance(user, password):
+    """View current points balance (Issue #5)."""
+    db = core.connect()
+    if not core.authenticate_user(db, user, password):
+        print("Error: Invalid credentials.")
+        raise click.Abort()
+
+    bal = core.get_balance(db, user)
+    console = Console()
+    console.print(
+        f"[bold green]Current Balance for {user}:[/bold green] {bal} points"
+    )
+
+
+@main.command()
+@click.option("--user", prompt=True, help="Employee email")
+@click.option("--password", prompt=True, hide_input=True, help="Password")
+def statement(user, password):
+    """View movements statement (Issue #5)."""
+    db = core.connect()
+    if not core.authenticate_user(db, user, password):
+        print("Error: Invalid credentials.")
+        raise click.Abort()
+
+    movements = core.get_movements(db, user)
+    table = Table(title=f"Statement for {user}")
+    table.add_column("Date", style="cyan")
+    table.add_column("Actor", style="magenta")
+    table.add_column("Value", style="green")
+
+    for mov in movements:
+        table.add_row(mov["date"], mov["actor"], str(mov["value"]))
+
+    console = Console()
+    console.print(table)
+
+
+@main.command()
+@click.argument("to_email", type=click.STRING)
+@click.argument("amount", type=click.INT)
+@click.option("--user", prompt=True, help="Sender email")
+@click.option(
+    "--password", prompt=True, hide_input=True, help="Sender password"
+)
+def transfer(to_email, amount, user, password):
+    """Transfer points to another employee (Issue #6)."""
+    db = core.connect()
+    success, msg = core.transfer_points(db, user, password, to_email, amount)
+    if not success:
+        print(f"Error: {msg}")
+        raise click.Abort()
+
+    console = Console()
+    console.print(f"[bold green]Success:[/bold green] {msg}")

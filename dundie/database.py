@@ -83,4 +83,43 @@ def add_movement(db, pk, value, actor="system"):
     movements.append(
         {"date": datetime.now().isoformat(), "actor": actor, "value": value}
     )
-    db["balance"][pk] = sum([item["value"] for item in movements])
+    db["balance"][pk] = sum(item["value"] for item in movements)
+
+
+def get_balance(db, pk) -> int:
+    """Return total points balance for user."""
+    return db.get("balance", {}).get(pk, 0)
+
+
+def get_movements(db, pk) -> list:
+    """Return list of point movements for user."""
+    return db.get("moviment", {}).get(pk, [])
+
+
+def transfer_points(
+    db, sender_email: str, password: str, receiver_email: str, amount: int
+) -> tuple:
+    """Transfer points from sender to receiver after auth."""
+    if amount <= 0:
+        return False, "Transfer amount must be greater than zero."
+
+    if not authenticate_user(db, sender_email, password):
+        return False, "Invalid credentials for sender."
+
+    sender_balance = get_balance(db, sender_email)
+    if sender_balance < amount:
+        return False, "Insufficient balance."
+
+    if receiver_email not in db.get("people", {}):
+        return False, f"Receiver {receiver_email} does not exist."
+
+    # Debita do remetente e credita no destinatário
+    add_movement(
+        db, sender_email, -amount, actor=f"transfer_to:{receiver_email}"
+    )
+    add_movement(
+        db, receiver_email, amount, actor=f"transfer_from:{sender_email}"
+    )
+    commit(db)
+
+    return True, "Transfer completed successfully."
