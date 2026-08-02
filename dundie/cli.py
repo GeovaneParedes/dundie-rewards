@@ -1,6 +1,6 @@
+import importlib.metadata
 import json
 
-import importlib.metadata
 import rich_click as click
 from rich.console import Console
 from rich.table import Table

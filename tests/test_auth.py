@@ -1,4 +1,5 @@
 import pytest
+
 from dundie.database import add_person, authenticate_user, connect
 from dundie.utils.user import get_password_hash, verify_password
 

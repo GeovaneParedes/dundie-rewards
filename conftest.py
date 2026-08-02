@@ -1,6 +1,6 @@
-import pytest
 from unittest.mock import patch
 
+import pytest
 
 MARKER = """\
 unit: Mark unit tests
