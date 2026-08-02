@@ -26,10 +26,10 @@ def go_to_tmpdir(request):
 
 @pytest.fixture(autouse=True, scope="function")
 def setup_testing_database(request):
-    """For each test, creat a database file on tmpdir
-    force database.py to use that filepath.
-    """
+    """For each test, create a clean database file on tmpdir"""
     tmpdir = request.getfixturevalue("tmpdir")
     test_db = str(tmpdir.join("database.test.json"))
-    with patch("dundie.database.DATABASE_PATH", test_db):
+    import dundie.database
+    import dundie.settings
+    with patch.object(dundie.database, "DATABASE_PATH", test_db), patch.object(dundie.settings, "DATABASE_PATH", test_db):
         yield

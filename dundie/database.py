@@ -10,18 +10,20 @@ EMPTY_DB = {"people": {}, "balance": {}, "moviment": {}, "users": {}}
 
 def connect() -> dict:
     """Connect to the database, returns dict data."""
+    from dundie import settings
     try:
-        with open(DATABASE_PATH, "r") as database_file:
+        with open(settings.DATABASE_PATH, "r") as database_file:
             return json.loads(database_file.read())
     except (json.JSONDecodeError, FileNotFoundError):
-        return EMPTY_DB
+        return json.loads(json.dumps(EMPTY_DB))
 
 
 def commit(db):
     """Save db back to the database file."""
+    from dundie import settings
     if db.keys() != EMPTY_DB.keys():
         raise RuntimeError("Database schema is invalid.")
-    with open(DATABASE_PATH, "w") as database_file:
+    with open(settings.DATABASE_PATH, "w") as database_file:
         database_file.write(json.dumps(db, indent=4))
 
 
@@ -47,11 +49,23 @@ def add_person(db, pk, data):
     return person, created
 
 
+from dundie.utils.user import generate_simple_password, get_password_hash, verify_password
+
+
 def set_initial_password(db, pk):
-    """Generate and saves password"""
+    """Generate and saves hashed password"""
     db["users"].setdefault(pk, {})
-    db["users"][pk]["password"] = generate_simple_password(8)
-    return db["users"][pk]["password"]
+    raw_password = generate_simple_password(8)
+    db["users"][pk]["password"] = get_password_hash(raw_password)
+    return raw_password
+
+
+def authenticate_user(db, email, password) -> bool:
+    """Authenticate user with email and password."""
+    user = db.get("users", {}).get(email)
+    if not user:
+        return False
+    return verify_password(password, user.get("password", ""))
 
 
 def set_initial_balance(db, pk, person):

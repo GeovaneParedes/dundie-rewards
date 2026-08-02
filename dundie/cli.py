@@ -1,6 +1,6 @@
 import json
 
-import pkg_resources
+import importlib.metadata
 import rich_click as click
 from rich.console import Console
 from rich.table import Table
@@ -16,7 +16,7 @@ click.rich_click.OPTIONS_TABLE_HELP_SECTIONS = True
 
 
 @click.group()
-@click.version_option(pkg_resources.get_distribution("dundie").version)
+@click.version_option(importlib.metadata.version("dundie"))
 def main():
     """Dundier MIfflin Rewards System
     This CLI application controls DM rewards
@@ -25,14 +25,15 @@ def main():
 
 @main.command()
 @click.argument("filepath", type=click.Path(exists=True))
-def load(filepath):
-    """Load the file to the database.
-    ## Features
-
-    - Validate data
-    - Parses the file
-    - Load to database
-    """
+@click.option("--user", prompt=True, help="Admin username/email")
+@click.option("--password", prompt=True, hide_input=True, help="Admin password")
+def load(filepath, user, password):
+    """Load the file to the database (Protected by Admin Auth)."""
+    db = core.connect()
+    # Se houver usuários cadastrados, valida autenticação. Se for primeira carga, aceita credencial inicial.
+    if db.get("users") and not core.authenticate_user(db, user, password):
+        print("Error: Invalid admin credentials.")
+        raise click.Abort()
 
     table = Table(title="Dundie Mifflin Associates")
     headers = ["name", "dept", "role", "created", "e-mail"]
@@ -60,6 +61,7 @@ def show(output, **query):
 
     if not result:
         print("Nothing to show")
+        return
 
     table = Table(title="Dundie Mifflin Report")
     for key in result[0]:
@@ -76,9 +78,15 @@ def show(output, **query):
 @click.argument("value", type=click.INT, required=True)
 @click.option("--email", required=False)
 @click.option("--dept", required=False)
+@click.option("--user", prompt=True, help="Admin username/email")
+@click.option("--password", prompt=True, hide_input=True, help="Admin password")
 @click.pass_context
-def add(ctx, value, **query):
-    """Add points to the user or dept."""
+def add(ctx, value, user, password, **query):
+    """Add points to the user or dept (Protected by Admin Auth)."""
+    db = core.connect()
+    if not core.authenticate_user(db, user, password):
+        print("Error: Invalid admin credentials.")
+        raise click.Abort()
 
     core.add(value, **query)
     ctx.invoke(show, **query)
@@ -88,8 +96,15 @@ def add(ctx, value, **query):
 @click.argument("value", type=click.INT, required=True)
 @click.option("--dept", required=False)
 @click.option("--email", required=False)
+@click.option("--user", prompt=True, help="Admin username/email")
+@click.option("--password", prompt=True, hide_input=True, help="Admin password")
 @click.pass_context
-def remove(ctx, value, **query):
-    """Add points to the user or dept."""
+def remove(ctx, value, user, password, **query):
+    """Remove points from user or dept (Protected by Admin Auth)."""
+    db = core.connect()
+    if not core.authenticate_user(db, user, password):
+        print("Error: Invalid admin credentials.")
+        raise click.Abort()
+
     core.add(-value, **query)
     ctx.invoke(show, **query)
