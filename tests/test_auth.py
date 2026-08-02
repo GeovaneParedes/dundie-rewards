@@ -33,6 +33,6 @@ def test_authenticate_user_function():
 
     assert authenticate_user(db, pk, "mysecret") is True
     assert authenticate_user(db, pk, "wrong") is False
-    assert authenticate_user(
-        db, "nonexistent@dundler.com", "mysecret"
-    ) is False
+    assert (
+        authenticate_user(db, "nonexistent@dundler.com", "mysecret") is False
+    )

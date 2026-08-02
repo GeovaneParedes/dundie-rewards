@@ -18,7 +18,7 @@ def pytest_configure(config):
 
 @pytest.fixture(autouse=True)
 def go_to_tmpdir(request):
-    """ Injecao de dependencias"""
+    """Injecao de dependencias"""
     tmpdir = request.getfixturevalue("tmpdir")
     with tmpdir.as_cwd():
         yield

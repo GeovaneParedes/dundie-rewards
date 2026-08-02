@@ -18,9 +18,7 @@ def generate_simple_password(size=8):
 def get_password_hash(password: str) -> str:
     """Generate SHA256 HMAC hash from raw password."""
     return hmac.new(
-        SECRET_KEY.encode("utf-8"),
-        password.encode("utf-8"),
-        hashlib.sha256
+        SECRET_KEY.encode("utf-8"), password.encode("utf-8"), hashlib.sha256
     ).hexdigest()
 
 

@@ -15,6 +15,7 @@ EMPTY_DB = {"people": {}, "balance": {}, "moviment": {}, "users": {}}
 def connect() -> dict:
     """Connect to the database, returns dict data."""
     from dundie import settings
+
     try:
         with open(settings.DATABASE_PATH, "r") as database_file:
             return json.loads(database_file.read())
@@ -25,6 +26,7 @@ def connect() -> dict:
 def commit(db):
     """Save db back to the database file."""
     from dundie import settings
+
     if db.keys() != EMPTY_DB.keys():
         raise RuntimeError("Database schema is invalid.")
     with open(settings.DATABASE_PATH, "w") as database_file:
