@@ -3,10 +3,32 @@
 import os
 from csv import reader
 
-from dundie.database import add_movement, add_person, commit, connect
+from dundie.database import (
+    add_movement,
+    add_person,
+    commit,
+    connect,
+)
+from dundie.database import get_balance as db_get_balance
+from dundie.database import get_movements as db_get_movements
+from dundie.database import transfer_points as db_transfer_points
 from dundie.utils.log import get_logger
 
 log = get_logger()
+
+
+def get_balance(db, pk):
+    return db_get_balance(db, pk)
+
+
+def get_movements(db, pk):
+    return db_get_movements(db, pk)
+
+
+def transfer_points(db, sender_email, password, receiver_email, amount):
+    return db_transfer_points(
+        db, sender_email, password, receiver_email, amount
+    )
 
 
 def load(filepath):
